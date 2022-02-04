@@ -1,0 +1,15 @@
+semantic-version==2.8.5
+setuptools-rust==1.1.2
+typing-extensions==4.0.1
+ansible==4.10.0
+ansible-core==2.11.8
+cffi==1.15.0
+cryptography==36.0.1
+Jinja2==3.0.3
+MarkupSafe==2.0.1
+packaging==21.3
+pkg_resources==0.0.0
+pycparser==2.21
+pyparsing==3.0.7
+PyYAML==6.0
+resolvelib==0.5.4

@@ -1,0 +1,14 @@
+# pod.yaml template file that creates pod
+
+apiVersion: v1        # It is of type String
+kind: Pod             # It is of type String
+Namespace: test
+metadata:             # It is of type Dictionary
+  name: nginx
+  labels:
+    app: nginx
+    tier: frontend
+spec:                  # It is of type List and Array
+  containers:
+  - name: nginx
+    image: shashwot/nginx-more

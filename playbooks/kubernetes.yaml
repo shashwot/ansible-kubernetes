@@ -1,0 +1,73 @@
+---
+- hosts: '{{ host }}'
+  tasks:
+
+  - name: "Install kubernetes python package"
+    pip:
+      name: kubernetes
+      state: present
+
+  - name: "Create a k8s namespace"
+    k8s:
+      name: test
+      api_version: v1
+      kind: Namespace
+      state: present    # State=present when you need to create new object
+
+
+# Copying the Pod.yaml and deployment.yaml in the remote node which will be further used to create the pods and deployment in the kubernetes cluster
+
+  - name: copying file with playbook
+    copy:
+      src: ../k8s/pod.yaml
+      dest: /tmp/pod.yaml
+
+  - name: copying file with playbook
+    copy:
+      src: ../k8s/deployment.yaml
+      dest: /tmp/deployment.yaml
+
+
+# Creating a Kubernetes pod in test using file stored locally
+
+  - name: "Create a pod"
+    k8s:
+      state: present      # State=present when you need to create new object
+      namespace: test  # defining the namespace
+      src: /tmp/pod.yaml
+
+
+# Checking the a Kubernetes pods in the test
+
+  - name: "Get an existing Pods in the kubernetes cluster"
+    k8s:
+      api_version: v1
+      kind: pod
+      name: nginx
+      namespace: test  # defining the namespace
+    register: web_service
+
+
+# Creating a Kubernetes deployment in test using file stored locally
+  - name: "Create a deployment"
+    k8s:
+      state: present            # State=present when you need to create new object
+      namespace: test  # defining the namespace
+      src: /tmp/deployment.yaml  # Source file location
+
+
+# CleanUP
+  - name: "Ansible file module to delete multiple files"
+    file:       
+      path: "{{ item }}"     
+      state: absent      
+    with_items:   
+    - /tmp/deployment.yaml
+    - /tmp/pod.yaml
+
+  - name: "Delete a k8s namespace"
+    k8s:
+      name: test
+      api_version: v1
+      kind: Namespace
+      state: absent    # State=absent when you need to delete the object
