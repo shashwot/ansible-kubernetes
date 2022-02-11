@@ -7,6 +7,8 @@ Run kubernetes manifests with ansible
 Install Dependencies
 ``` 
 $ python3 -m venv venv
+$ chmod +x ./venv/bin/activate
+$ source ./venv/bin/activate
 $ pip3 install --upgrade pip
 $ pip3 install -r requirement.txt
 ```
